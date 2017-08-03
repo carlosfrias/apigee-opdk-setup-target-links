@@ -1,22 +1,21 @@
 ---
 # tasks file for /Users/carlosfrias/apigee-workspace/apigee-opdk-role-workspace/apigee-opdk-setup-target-links
-- block:
 
-  - name: Create the apigee folder under /apps/opt
-    file:
-      path: "{{ item.src }}"
-      state: directory
-      owner: "{{ opdk_user_name }}"
-      group: "{{ opdk_group_name }}"
-    with_items: "{{ target_links }}"
+- name: Create the apigee folder, no links
+  file:
+    path: "{{ item.src }}"
+    state: directory
+    owner: "{{ opdk_user_name }}"
+    group: "{{ opdk_group_name }}"
+  with_items: "{{ target_links }}"
+  when: target_links is not defined
 
-  - name: Symlink /opt/apigee to /apps/opt/apigee
-    file:
-      dest: "{{ item.dest }}"
-      src: "{{ item.src }}"
-      state: link
-      owner: "{{ opdk_user_name }}"
-      group: "{{ opdk_group_name }}"
-    with_items: "{{ target_links }}"
-
+- name: Create the apigee folder, with links
+  file:
+    dest: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    state: link
+    owner: "{{ opdk_user_name }}"
+    group: "{{ opdk_group_name }}"
+  with_items: "{{ target_links }}"
   when: target_links is defined
