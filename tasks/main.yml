@@ -8,7 +8,7 @@
     owner: "{{ opdk_user_name }}"
     group: "{{ opdk_group_name }}"
   with_items: "{{ target_links }}"
-  when: target_links is not defined
+  when: target_links is defined
 
 - name: Create the apigee folder, with links
   file:
