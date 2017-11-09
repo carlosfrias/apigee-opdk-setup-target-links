@@ -10,6 +10,13 @@
   with_items: "{{ target_links }}"
   when: target_links is defined
 
+- name: Clean up any remaining link targets
+  file:
+    path: "{{ item.dest }}"
+    state: absent
+  with_items: "{{ target_links }}"
+  when: target_links is defined
+
 - name: Create the apigee folder, with links
   file:
     dest: "{{ item.dest }}"
